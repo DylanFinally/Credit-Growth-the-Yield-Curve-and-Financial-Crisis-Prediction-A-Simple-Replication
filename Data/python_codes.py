@@ -2,6 +2,8 @@
 # Many of these mechanisms are simple but helpful when dealing with problems of greater complexity and, as such, can serve as a helpful baseline. 
 
 ## Importing Libraries used in various examples ##
+# When running into difficulties with specific undertakings, it is often necessary to visit Github or other websites for examples.
+# Many of the examples cited the below python packages and as such I have included them all. 
 
 import pandas as pd
 import multiprocessing
