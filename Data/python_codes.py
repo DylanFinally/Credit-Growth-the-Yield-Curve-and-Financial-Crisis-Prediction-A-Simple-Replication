@@ -468,3 +468,72 @@ sns.heatmap(cm,annot=True)
 print(accuracy_score(y_test, y_pred))
 
 ###########################################################################
+
+# Area under the Curve 
+
+clf_tree = DecisionTreeClassifier()
+clf_reg = LogisticRegression()
+clf_extree = ExtraTreesClassifier()
+clf_forest = RandomForestClassifier()
+
+clf_tree.fit(X_train, y_train)
+clf_reg.fit(X_train, y_train)
+clf_extree.fit(X_train, y_train)
+clf_forest.fit(X_train, y_train)
+
+y_score1 = clf_tree.predict_proba(X_test)[:,1]
+y_score2 = clf_reg.predict_proba(X_test)[:,1]
+y_score3 = clf_extree.predict_proba(X_test)[:,1]
+y_score4 = clf_forest.predict_proba(X_test)[:,1]
+
+false_positive_rate1, true_positive_rate1, threshold1 = roc_curve(y_test, y_score1)
+false_positive_rate2, true_positive_rate2, threshold2 = roc_curve(y_test, y_score2)
+false_positive_rate3, true_positive_rate3, threshold3 = roc_curve(y_test, y_score3)
+false_positive_rate4, true_positive_rate4, threshold4 = roc_curve(y_test, y_score4)
+
+print('roc_auc_score for DecisionTree: ', roc_auc_score(y_test, y_score1))
+print('roc_auc_score for Logistic Regression: ', roc_auc_score(y_test, y_score2))
+print('roc_auc_score for Extremely Randomized Trees: ', roc_auc_score(y_test, y_score3))
+print('roc_auc_score for Random Forest: ', roc_auc_score(y_test, y_score4))
+
+# Graphs 
+
+plt.subplots(1, figsize=(5,5))
+plt.title('ROC - Decision Tree')
+plt.plot(false_positive_rate1, true_positive_rate1)
+plt.plot([0, 1], ls="--")
+plt.plot([0, 0], [1, 0] , c=".7"), plt.plot([1, 1] , c=".7")
+plt.ylabel('True Positive Rate')
+plt.xlabel('False Positive Rate')
+plt.show()
+
+plt.subplots(1, figsize=(5,5))
+plt.title('ROC - Logistic regression')
+plt.plot(false_positive_rate2, true_positive_rate2)
+plt.plot([0, 1], ls="--")
+plt.plot([0, 0], [1, 0] , c=".7"), plt.plot([1, 1] , c=".7")
+plt.ylabel('True Positive Rate')
+plt.xlabel('False Positive Rate')
+plt.show()
+
+plt.subplots(1, figsize=(5,5))
+plt.title('ROC - Extremely Randomized Trees')
+plt.plot(false_positive_rate3, true_positive_rate3)
+plt.plot([0, 1], ls="--")
+plt.plot([0, 0], [1, 0] , c=".7"), plt.plot([1, 1] , c=".7")
+plt.ylabel('True Positive Rate')
+plt.xlabel('False Positive Rate')
+plt.show()
+
+plt.subplots(1, figsize=(5,5))
+plt.title('ROC - Random Forest')
+plt.plot(false_positive_rate4, true_positive_rate4)
+plt.plot([0, 1], ls="--")
+plt.plot([0, 0], [1, 0] , c=".7"), plt.plot([1, 1] , c=".7")
+plt.ylabel('True Positive Rate')
+plt.xlabel('False Positive Rate')
+plt.show()
+
+
+    
+
