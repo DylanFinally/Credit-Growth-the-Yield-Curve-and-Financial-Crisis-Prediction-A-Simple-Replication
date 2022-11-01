@@ -301,6 +301,170 @@ df.drop(columns=['iso', 'ifs', 'contraction', 'eq_tr', 'bill_rate', 'housing_cap
 
 ###########################################################################
 
+# Checks to see if the data is strongly balanced. 
+
+# To check if they are nans
+pd.isna(train_features).any()
+# If true, then there are nans in the dataset
+
+# Checking for nan
+np.isnan(df)
+
+# Coordinates of nan
+np.where(np.isnan(df))
+
+# Replace nan with zero and infinite numbers with finite numbers
+np.nan_to_num(df)
+
+# Checking for nans in training _ features #
+pd.isna(train_features).any()
+
+# Dropping the nas
+df = df.dropna()
+
+###########################################################################
+
+# Setting up a training and test set. 
+
+"""
+The below code is to create a training and test set. I had difficulties with this process but the below seems to work. 
+
+"""
+# One hot encoding
+features = pd.get_dummies(df)
+
+# Extract features and labels
+labels = features['contraction_dummy']
+features = features.drop('contraction_dummy', axis=1)
+
+# List of features for later use 
+feature_list = list(features.columns)
 
 
+# Converting to numpy arrays
+features = np.array(features)
+labels = np.array(labels)
 
+# Training and testing sets
+train_features, test_features, train_labels, test_labels = train_test_split(features, labels, test_size = 0.25, random_state = 42)
+
+###########################################################################
+
+# Check the training and test set. 
+
+print('Training Features Shape:', train_features.shape)
+print('Training Labels Shape:', train_labels.shape)
+print('Testing Features Shape:', test_features.shape)
+print('Testing Labels Shape:', test_labels.shape)
+
+###########################################################################
+
+# Baseline predictions are historial averages 
+baseline_preds = test_features[:, feature_list.index('rate_differential')]
+
+# Baseline Errors 
+baseline_errors = abs(baseline_preds - test_labels)
+print('Average Baseline Error: ', round(np.mean(baseline_errors), 2), 'contractions')
+
+
+###########################################################################
+
+# Correlation Matrix
+
+# Setting the size of the figure
+f, ax = plt.subplots(figsize=(10, 8))
+
+# Finding the correlation
+corr = df.corr()
+
+# Plotting the correlation
+sns.heatmap(corr, mask=np.zeros_like(corr, dtype=np.bool), cmap=sns.diverging_palette(220, 10, as_cmap=True),
+            square=True, ax=ax)
+
+###########################################################################
+
+# Another attempt at training and test set
+
+"""
+As stated, I ran into issues working with a training and test dataset. The following code consists of further examples found online, afterwhich I was able
+to somewhat generate some results.
+"""
+# Splitting the dataset
+Inputs = df.drop('contraction_dummy', axis=1)
+output = df['contraction_dummy']
+
+# Splitting the dataset 
+X_train, X_test, y_train, y_test=train_test_split(Inputs, output, test_size=0.3)
+
+# From sklearn ExtraTreesRegressor
+ET_regressor = ExtraTreesRegressor()
+
+print(ET_regressor.get_params())
+
+# Train the model
+ET_regressor.fit(X_train, y_train)
+
+# Making predictions
+Regressor_pred = ET_regressor.predict(X_test)
+
+# Fitting the size of the plot
+plt.figure(figsize=(15, 8))
+
+# Plotting the graphs
+plt.plot([i for i in range(len(y_test))],y_test, color = 'red',label="actual values")
+plt.plot([i for i in range(len(y_test))],Regressor_pred, color='blue', label="Predicted values")
+
+# Display
+plt.legend()
+plt.show()
+
+# Evaluating model performance
+print('R-square score is :', r2_score(y_test, Regressor_pred))
+
+###########################################################################
+
+# Extremely Randomized Trees Confusion Matrix
+
+# initializing the model
+ET_classifier = ExtraTreesClassifier()
+
+# Training the model
+ET_classifier.fit(X_train, y_train)
+
+# making predictions
+classifier_pred = ET_classifier.predict(X_test)
+
+# Creating a Confusion Matrix
+
+# Providing actual and predicted values
+cm = confusion_matrix(y_test, classifier_pred)
+
+# If True, write the data value in each cell
+sns.heatmap(cm,annot=True)
+
+#accuracy score
+accuracy_score(y_test,y_pred)
+
+###########################################################################
+
+# Random Forest Classifier Confusion Matrix
+
+# Random forest vs random tree classifier
+classifier = RandomForestClassifier()
+
+# Fit the model
+classifier.fit(X_train, y_train)
+
+# Testing the model
+y_pred = classifier.predict(X_test)
+
+# Providing actual and predicted values
+cm = confusion_matrix(y_test, y_pred)
+
+# If True, write the data value in each cell
+sns.heatmap(cm,annot=True)
+
+# Printing the accuracy of the model
+print(accuracy_score(y_test, y_pred))
+
+###########################################################################
