@@ -70,7 +70,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_curve, roc_auc_score
   
-    
 import matplotlib 
 import matplotlib.pyplot as plt
 import seaborn
@@ -79,7 +78,6 @@ import seaborn as sns
 ## Setting a directory ##
 
 main_directory = "C:/Users/dylan/..../...../...."
-
 
 ###########################################################################
 
@@ -247,8 +245,8 @@ any negative value returned by a Hodrick-Prescott filter is marked positive by t
 
 Thus, I could examine which variables have the most predictive strength in outlining economic contractions.
 
-
 """
+
 # Setting the Hodrick Prescott Filter
 
 gdp_cycle,gdp_trend = hpfilter(df['ln_gdp'], lamb=1600)
@@ -365,7 +363,6 @@ baseline_preds = test_features[:, feature_list.index('rate_differential')]
 # Baseline Errors 
 baseline_errors = abs(baseline_preds - test_labels)
 print('Average Baseline Error: ', round(np.mean(baseline_errors), 2), 'contractions')
-
 
 ###########################################################################
 
