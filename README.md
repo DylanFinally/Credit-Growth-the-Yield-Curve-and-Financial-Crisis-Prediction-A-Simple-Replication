@@ -9,5 +9,5 @@ To see the original work, please visit: https://github.com/bank-of-england/Machi
 
 To see the dataset with which the authors were working, please see: https://www.macrohistory.net/database/
 
-This work is strictly a simple replication attempt to practice coding with random forests and experimental trees. 
+Before this, I had not worked with python. This work is strictly a simple replication attempt to practice coding with random forests and experimental trees and could offer fellow newcomers useful information through which to learn python.  
 
