@@ -219,6 +219,8 @@ df = df[df['ca'].notna()]
 df = df[df['cpi'].notna()]
 df = df[df['unemp'].notna()]
 
+###########################################################################
+
 # Crisis Variable 
 
 """
@@ -228,7 +230,6 @@ the predictive capability of the forecasting models.
 
 The second change is to ensure that macroprudential policy makers have enough time to implement potential changes. The authors have also
 carefully ensured that a minimum number of crises would still exist within the training set and nested cross validation folds. 
-
 
 I had many issues implementing the above codes. To proceed with my replication,
 my analysis became substantially simpler than the work of Bluwstein, Buckmann, Joseph, Kapadia, and Şimşek (2021). 
@@ -248,8 +249,57 @@ Thus, I could examine which variables have the most predictive strength in outli
 
 
 """
+# Setting the Hodrick Prescott Filter
 
+gdp_cycle,gdp_trend = hpfilter(df['ln_gdp'], lamb=1600)
+# Lamb = 1600 for quarterly data
+# Lamb = 6.25 for yearly
 
+df["ln_gdp_trend"] = gdp_trend
+
+df["ln_gdp_cycle"] = gdp_cycle
+
+df["contraction"] = df['ln_gdp_cycle'] < 0
+
+df["contraction_dummy"] = df["contraction"].astype(int)
+
+###########################################################################
+
+"""
+Python has difficulty reading string elements so I converted the countries in the dataset to a numeric list to proceed, based on their identity codes. 
+
+"""
+status = [193,124,156,128,172,132,134,178,136,158,138,142,182,184,144,146,112,111]
+identity_code = [1,2,3,4,5,6,7,8, 9,10,11,12,13,14,15,16,17,18]
+
+df['country'] = df['ifs'].replace(status, identity_code)
+
+"""
+Country     ifs  Identity_code
+Australia   193      1
+Belgium     124      2
+Canada      156      3
+Denmark     128      4
+Finland     172      5
+France      132      6
+Germany     134      7
+Ireland     178      8
+Italy       136      9
+Japan       158      10
+Netherlands 138      11
+Norway      142      12
+Portugal    182      13
+Spain       184      14
+Sweden      144      15
+Switzerland 146      16
+UK          112      17
+US          111      18
+
+"""
+#dropping more variables because of an Nan error message to have a perfectly balanced dataset
+df.drop(columns=['iso', 'ifs', 'contraction', 'eq_tr', 'bill_rate', 'housing_capgain', 'housing_rent_rtn', 'eq_capgain','eq_dp','bond_rate','eq_div_rtn', 'lev', 'noncore'], inplace=True)
+
+###########################################################################
 
 
 
