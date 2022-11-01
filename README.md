@@ -5,9 +5,9 @@ A huge thank you to the authors for creating such a compelling work and making t
 
 To read the paper, please see: https://www.ecb.europa.eu/pub/pdf/scpwps/ecb.wp2614~6974517ac3.en.pdf
 
-To see the original work, please visit: https://github.com/bank-of-england/MachineLearningCrisisPrediction
+To see the original coding works, please visit: https://github.com/bank-of-england/MachineLearningCrisisPrediction
 
-To see the dataset with which the authors were working, please see: https://www.macrohistory.net/database/
+To download the dataset, please see: https://www.macrohistory.net/database/
 
 Before this, I had not worked with python. This work is strictly a simple replication attempt to practice coding with random forests and experimental trees and could offer fellow newcomers useful information through which to learn python.  
 
