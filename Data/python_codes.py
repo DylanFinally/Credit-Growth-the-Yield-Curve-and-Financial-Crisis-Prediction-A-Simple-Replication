@@ -1,4 +1,7 @@
-# Importing Libraries used in various examples
+# This code should serve as a good foundation for students, like myself, who are learning to code with python. 
+# Many of these mechanisms are simple but helpful when dealing with problems of greater complexity and, as such, can serve as a helpful baseline. 
+
+## Importing Libraries used in various examples ##
 
 import pandas as pd
 import multiprocessing
@@ -59,18 +62,46 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_curve, roc_auc_score
   
-
     
 import matplotlib 
 import matplotlib.pyplot as plt
 import seaborn
 import seaborn as sns
 
-# Setting a directory 
+## Setting a directory ##
 
 main_directory = "C:/Users/dylan/..../...../...."
 
-# Viewing Options. 
+## Viewing Options ## 
+
 # These configurations allow for easier oversight of the massive dataset with which Bluwstein, Buckmann, Joseph, Kapadia, and Şimşek were working. 
+
+pd.set_option("max_rows", None)
+pd.set_option('display.max_columns', None)
+
+# To read the excel file from the Jordà-Schularick-Taylor Macrohistory Database. 
+
+df = pd.read_csv(r'C:\Users\dylan\...\...\JSTdatasetR6.csv')
+
+## Renaming Variables ## 
+
+df.rename(columns={
+        "crisisJST": "crisis",
+        'stir': 'short_rate',
+        'ltrate': 'long_rate',
+        'iy': 'invgdp_ratio',
+        'debtgdp': 'pdebtgdp_ratio',
+        'money': 'broad_money',
+        'narrowm': 'narrow_money',
+        'tloans': 'total_loans',
+        'tbus': 'business_loans',
+        'thh': 'household_loans',
+        'tmort': 'mortgage_loans',
+        #this one is not in the dataset 'stocks': 'stock',
+        'hpnom': 'hp',
+        'rconsbarro': 'real_consumption'
+    }, inplace=True)  
+
+# Removing Crisis Years Manually 
 
 
