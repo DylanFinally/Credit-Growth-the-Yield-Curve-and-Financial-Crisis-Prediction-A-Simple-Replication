@@ -1,7 +1,7 @@
 ## Introduction ##
 """
 This code should serve as a good foundation for students, like myself, who are learning to code with python. 
-Many of these mechanisms are simple but helpful when dealing with problems of greater complexity and, as such, can serve as a helpful baseline. 
+Many of these mechanisms are simple but helpful when dealing with problems of greater complexity and, as such, serve as a helpful baseline. 
 """
 
 ## Importing Libraries used in various examples ##
@@ -122,8 +122,8 @@ df.rename(columns={
 ## Removing Crisis Years Manually ##
 
 """
-The Authors deliberately have remove extreme case years as these would obfuscate the objective of the machine learning mechanism, namely accurately predicting
-when financial crises occur. The world wars and the great depression are outside the scope of normality. 
+The Authors deliberately remove years of extreme circumstance as these would obstruct the predictive model in effectively recognizing conventional signals of a crisis.
+The world wars and the great depression are outside the scope of normality. 
 """
 
 years_ex = list(range(1933,1946)) + list(range(1914, 1919))
@@ -197,8 +197,57 @@ df.drop(columns=['rent_ipolated','bond_tr',
 
 ###########################################################################
 
+"""
+In addition to dropping years of extreme circumstance, the authors remove observations with any missings in order to have a strongly balanced dataset. 
+
+"""
+
+# Dropping observations with missings from choice variables manually 
+
+df = df[df['short_rate'].notna()]
+df = df[df['long_rate'].notna()]
+df = df[df['invgdp_ratio'].notna()]
+df = df[df['pdebtgdp_ratio'].notna()]
+df = df[df['broad_money'].notna()]
+df = df[df['total_loans'].notna()]
+df = df[df['business_loans'].notna()]
+df = df[df['household_loans'].notna()]
+df = df[df['mortgage_loans'].notna()]
+df = df[df['hp'].notna()]
+df = df[df['real_consumption'].notna()]
+df = df[df['ca'].notna()]
+df = df[df['cpi'].notna()]
+df = df[df['unemp'].notna()]
+
+# Crisis Variable 
+
+"""
+The authors have deliberately marked two years before actual crises within the dataset as crises and removing four years suceeding any crisis event. 
+The first omission serves to remove years of the economy that are affected by crisis dynamics and, as such, could dilute
+the predictive capability of the forecasting models. 
+
+The second change is to ensure that macroprudential policy makers have enough time to implement potential changes. The authors have also
+carefully ensured that a minimum number of crises would still exist within the training set and nested cross validation folds. 
 
 
+I had many issues implementing the above codes. To proceed with my replication,
+my analysis became substantially simpler than the work of Bluwstein, Buckmann, Joseph, Kapadia, and Şimşek (2021). 
+
+Rather than training the machine learning model on predicting true financial crises, I sought to experiment with the ability of the machine learning mechanism to recognize
+contractionary movements in the economy. 
+
+In this replication, rather than employ the binary crisis variable, I will follow the work of Céline Carrère and Maria Masood (2018). 
+
+For a copy of their work, please see: https://onlinelibrary.wiley.com/doi/abs/10.1111/twec.12646
+
+a binary contraction variable to account for states of weaker economic performance.
+Instead of requiring at least one negative standard deviation away from the trend level of the natural log of GDP, as Carrère and Masood have done, for simplicity,
+any negative value returned by a Hodrick-Prescott filter is marked positive by the binary contraction variable.
+
+Thus, I could examine which variables have the most predictive strength in outlining economic contractions.
+
+
+"""
 
 
 
